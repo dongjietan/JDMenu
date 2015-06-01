@@ -10,22 +10,31 @@
 #import "JDMenuRow.h"
 
 @interface JDMenu()<JDMenuRowDelegate>{
-    NSArray *rows;
+    NSArray *menuRows;
 }
+
 @end
 
 @implementation JDMenu
 
 #pragma mark - Setup
 - (void)setup {
+    NSInteger number = [self.dataSource menu:self numberOfRowsInSection:0];
     NSMutableArray *mArray = [NSMutableArray array];
-    for (int i = 0; i < 3; ++i) {
-        JDMenuRow *row = [[JDMenuRow alloc] initWithFrame:CGRectMake(0, i * 64, self.frame.size.width, 64)];
+    CGFloat originY = 0;
+    for (int i = 0; i < number; ++i) {
+        CGFloat height = JDMenuRowHeightDefault;
+        if (self.delegate && [self.delegate respondsToSelector:@selector(menu:heightForRowAtIndexPath:)]) {
+            height = [self.delegate menu:self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        }
+        JDMenuRow *row = [[JDMenuRow alloc] initWithFrame:CGRectMake(0, originY, self.frame.size.width, height)];
+        originY += height;
         row.delegate = self;
         [self addSubview:row];
         [mArray addObject:row];
     }
-    rows = [NSArray arrayWithArray:mArray];
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, originY);
+    menuRows = [NSArray arrayWithArray:mArray];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -41,7 +50,7 @@
 
 - (void)itemAnimationFinished:(JDMenuRow *)menuRow{
     for (int i = 0; i < 3; ++i) {
-        JDMenuRow *row = [rows objectAtIndex:i];
+        JDMenuRow *row = [menuRows objectAtIndex:i];
         if (i == 0) {
             [self spread:row];
         }
@@ -53,7 +62,7 @@
 }
 
 - (JDMenuRow *)rowAtIndexPath:(NSIndexPath *)indexPath{
-    return [rows objectAtIndex:indexPath.row];
+    return [menuRows objectAtIndex:indexPath.row];
 }
 
 - (void)spread:(JDMenuRow *)menuRow{
@@ -80,10 +89,10 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          menuRow.frame = newFrame;
-                         JDMenuRow *row1 = [rows objectAtIndex:1];
+                         JDMenuRow *row1 = [menuRows objectAtIndex:1];
                          CGRect frame = CGRectMake(0, newFrame.origin.y + newFrame.size.height, row1.frame.size.width, row1.frame.size.height);
                          row1.frame = frame;
-                         JDMenuRow *row2 = [rows objectAtIndex:2];
+                         JDMenuRow *row2 = [menuRows objectAtIndex:2];
                          frame = CGRectMake(0, frame.origin.y + frame.size.height, row1.frame.size.width, row1.frame.size.height);
                          row2.frame = frame;
                          self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, frame.origin.y + frame.size.height);

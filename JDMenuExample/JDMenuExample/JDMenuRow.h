@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define JDMenuRowHeightDefault 64
+#define JDMenuRowSubRowHeightDefault 92
+
 typedef NS_ENUM(NSInteger,JDMenuRowStatus){
     JDMenuRowStatusNormal   = 0,
     JDMenuRowStatusSpreaded = 1 << 0,

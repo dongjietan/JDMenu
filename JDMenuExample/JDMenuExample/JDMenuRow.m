@@ -77,7 +77,7 @@
     }
 }
 
-- (void)spreadSubMenu{
+- (void)spreadSubRow{
     NSInteger count = 7;
     CGFloat width = 52;
     CGFloat height = 92;
