@@ -92,6 +92,11 @@
                      completion:^(BOOL finished){
                          weakSelf.userInteractionEnabled = YES;
                          _status = JDMenuItemViewStatusSpreaded;
+                         if (finished) {
+                             if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuItemViewDelegate)]) {
+                                 [self.delegate animationFinished];
+                             }
+                         }
                      }];
 }
 

@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger,JDMenuItemViewStatus){
 @class JDMenuItemView;
 @protocol JDMenuItemViewDelegate <NSObject>
 - (void)menuItemTaped:(JDMenuItemView *)menuItemView;
+- (void)animationFinished;
 @end
 
 @class JDMenuItem;
