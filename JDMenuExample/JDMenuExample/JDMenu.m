@@ -57,7 +57,7 @@
     return [NSIndexPath indexPathForRow:index inSection:0];
 }
 
-- (void)spreadAnimationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
+- (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
     [UIView animateWithDuration:0.2f
                           delay:0.f
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -65,51 +65,21 @@
                          CGFloat originY = 0;
                          for (int i = 0; i < menuRows.count; ++i) {
                              JDMenuRow *row = [menuRows objectAtIndex:i];
-                             CGFloat height = row == menuRow ? [menuRow spreadHeightForMenuRowItemSide:menuRowItemSide] : JDMenuRowHeightDefault;
+                             CGFloat height = [row rowhHeight];
                              row.frame = CGRectMake(0, originY, row.frame.size.width, height);
                              originY += height;
                          }
                          self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,originY);
                      }
                      completion:^(BOOL finished){
-                        [menuRow setSubRowItems:menuRowItemSide hidden:NO];
+                         if (menuRowItemSide == JDMenuRowItemSideNone) {
+                             [menuRow setSubRowItems:JDMenuRowItemSideLeft hidden:YES];
+                             [menuRow setSubRowItems:JDMenuRowItemSideRight hidden:YES];
+                         }
+                         else{
+                             [menuRow setSubRowItems:menuRowItemSide hidden:NO];
+                         }
                      }];
 }
 
-- (void)spread:(JDMenuRow *)menuRow{
-    NSInteger count = 4;
-    CGFloat width = 52;
-    CGFloat height = 92;
-    CGFloat space = 30;
-    CGFloat totoalWidth = (count - 1) * space + count * width;
-    if (count > 4) {
-        totoalWidth = (4 - 1) * space + 4 * width;
-    }
-    else{
-        totoalWidth = (count - 1) * space + count * width;
-    }
-    CGFloat startPointX = (menuRow.frame.size.width - totoalWidth) * 0.5f;
-    CGFloat startPointY = 64 + 12;
-    CGFloat labelStartPointY = 64 + 68;
-    
-    CGRect newFrame = menuRow.frame;
-    newFrame.size.height = 64 + height * ((count - 1) / 4 + 1);
-    
-    [UIView animateWithDuration:0.2f
-                          delay:0.f
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         menuRow.frame = newFrame;
-                         JDMenuRow *row1 = [menuRows objectAtIndex:1];
-                         CGRect frame = CGRectMake(0, newFrame.origin.y + newFrame.size.height, row1.frame.size.width, row1.frame.size.height);
-                         row1.frame = frame;
-                         JDMenuRow *row2 = [menuRows objectAtIndex:2];
-                         frame = CGRectMake(0, frame.origin.y + frame.size.height, row1.frame.size.width, row1.frame.size.height);
-                         row2.frame = frame;
-                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, frame.origin.y + frame.size.height);
-                     }
-                     completion:^(BOOL finished){
-//                         [menuRow setSubRowItems:menuRowItemSide hidden:NO];
-                     }];
-}
 @end

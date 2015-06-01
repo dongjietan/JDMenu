@@ -50,76 +50,38 @@
 }
 
 - (void)singleTapGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer{
-    if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuItemViewDelegate)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(menuItemTaped:)]) {
         [self.delegate menuItemTaped:self];
     }
 }
 
 - (void)shrinkToFrame:(CGRect)frame{
-    self.userInteractionEnabled = NO;
-    __weak __typeof(&*self)weakSelf = self;
-    [UIView animateWithDuration:0.2f
-                          delay:0.f
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         weakSelf.frame = frame;
-                         weakSelf.containerView.frame = CGRectMake(0, 0, weakSelf.containerView.frame.size.width, weakSelf.containerView.frame.size.height);
-                         [weakSelf setBackgroundColorFitIcon];
-                         weakSelf.titleLB.alpha = 0;
-                         weakSelf.subTitleLB.alpha = 0;
-                     }
-                     completion:^(BOOL finished){
-                         weakSelf.userInteractionEnabled = YES;
-                         _status = JDMenuItemViewStatusShrinked;
-                     }];
+    self.frame = frame;
+    self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
+    [self setBackgroundColorFitIcon];
+    self.titleLB.alpha = 0;
+    self.subTitleLB.alpha = 0;
 }
 
 - (void)spreadToFrame:(CGRect)frame{
-    self.userInteractionEnabled = NO;
-    __weak __typeof(&*self)weakSelf = self;
+    self.frame = frame;
     CGPoint center = CGPointMake(frame.size.width * 0.5f, frame.size.height * 0.5f);
-    [UIView animateWithDuration:0.2f
-                          delay:0.f
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         weakSelf.frame = frame;
-                         weakSelf.containerView.center = center;
-                         [weakSelf setBackgroundColorFitIcon];
-                         weakSelf.titleLB.alpha = 1;
-                         weakSelf.subTitleLB.alpha = 1;
-                         weakSelf.titleLB.textColor = [UIColor whiteColor];
-                         weakSelf.subTitleLB.textColor = [UIColor whiteColor];
-                     }
-                     completion:^(BOOL finished){
-                         weakSelf.userInteractionEnabled = YES;
-                         _status = JDMenuItemViewStatusSpreaded;
-                         if (finished) {
-                             if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuItemViewDelegate)]) {
-                                 [self.delegate spreadAnimationFinished:self];
-                             }
-                         }
-                     }];
+    self.containerView.center = center;
+    [self setBackgroundColorFitIcon];
+    self.titleLB.alpha = 1;
+    self.subTitleLB.alpha = 1;
+    self.titleLB.textColor = [UIColor whiteColor];
+    self.subTitleLB.textColor = [UIColor whiteColor];
 }
 
 - (void)restoreNormalState{
-    self.userInteractionEnabled = NO;
-    __weak __typeof(&*self)weakSelf = self;
-    [UIView animateWithDuration:0.2f
-                          delay:0.f
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         weakSelf.frame = normalFrame;
-                         weakSelf.containerView.frame = CGRectMake(0, 0, weakSelf.containerView.frame.size.width, weakSelf.containerView.frame.size.height);
-                         weakSelf.backgroundColor = [UIColor whiteColor];
-                         weakSelf.titleLB.alpha = 1;
-                         weakSelf.subTitleLB.alpha = 1;
-                         weakSelf.titleLB.textColor = [UIColor blackColor];
-                         weakSelf.subTitleLB.textColor = [UIColor darkGrayColor];
-                     }
-                     completion:^(BOOL finished){
-                         weakSelf.userInteractionEnabled = YES;
-                         _status = JDMenuItemViewStatusNormal;
-                     }];
+    self.frame = normalFrame;
+    self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
+    self.backgroundColor = [UIColor whiteColor];
+    self.titleLB.alpha = 1;
+    self.subTitleLB.alpha = 1;
+    self.titleLB.textColor = [UIColor blackColor];
+    self.subTitleLB.textColor = [UIColor darkGrayColor];
 }
 
 - (void)setBackgroundColorFitIcon{

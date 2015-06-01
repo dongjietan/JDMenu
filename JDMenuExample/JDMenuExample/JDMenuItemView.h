@@ -17,14 +17,13 @@ typedef NS_ENUM(NSInteger,JDMenuItemViewStatus){
 @class JDMenuItemView;
 @protocol JDMenuItemViewDelegate <NSObject>
 - (void)menuItemTaped:(JDMenuItemView *)menuItemView;
-- (void)spreadAnimationFinished:(JDMenuItemView *)menuItemView;
 @end
 
 @class JDMenuItem;
 @interface JDMenuItemView : UIView
 
 @property(nonatomic,weak) id <JDMenuItemViewDelegate> delegate;
-@property(nonatomic,readonly) JDMenuItemViewStatus status;
+@property(nonatomic,assign) JDMenuItemViewStatus status;
 @property(nonatomic,strong,readonly) JDMenuItem *menuItem;
 
 - (void)setWithMenuItem:(JDMenuItem *)menuItem;

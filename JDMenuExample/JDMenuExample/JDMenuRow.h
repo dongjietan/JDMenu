@@ -22,14 +22,15 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
 };
 
 typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
-    JDMenuRowItemSideLeft   = 0,
-    JDMenuRowItemSideRight  = 1 << 0,
+    JDMenuRowItemSideNone   = 0,        //normal
+    JDMenuRowItemSideLeft   = 1 << 0,   
+    JDMenuRowItemSideRight  = 1 << 1,
 };
 
 @class JDMenuRow;
 @class JDMenuItem;
 @protocol JDMenuRowDelegate <NSObject>
-- (void)spreadAnimationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
+- (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
 @end
 
 @interface JDMenuRow : UIView
@@ -40,5 +41,5 @@ typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
 - (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem;
 
 - (void)setSubRowItems:(JDMenuRowItemSide)menuRowItemSide hidden:(BOOL)hidden;
-- (CGFloat)spreadHeightForMenuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
+- (CGFloat)rowhHeight;
 @end
