@@ -10,6 +10,11 @@
 
 #define JDMenuRowHeightDefault 64
 #define JDMenuRowSubRowHeightDefault 92
+#define JDMenuRowIconWidthDefault 52
+#define JDMenuRowIconSpaceDefault 30
+
+#define JDMenuRowIconOriginY 12
+#define JDMenuRowTitleOriginY 68
 
 typedef NS_ENUM(NSInteger,JDMenuRowStatus){
     JDMenuRowStatusNormal   = 0,
@@ -17,6 +22,7 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
 };
 
 @class JDMenuRow;
+@class JDMenuItem;
 @protocol JDMenuRowDelegate <NSObject>
 - (void)itemAnimationFinished:(JDMenuRow *)menuRow;
 @end
@@ -26,4 +32,7 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
 @property(nonatomic,weak) id <JDMenuRowDelegate> delegate;
 @property(nonatomic,readonly) JDMenuRowStatus status;
 
+- (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem subItems:(NSArray *)subItems;
+
+- (void)setSubRowItemsHidden:(BOOL)hidden;
 @end

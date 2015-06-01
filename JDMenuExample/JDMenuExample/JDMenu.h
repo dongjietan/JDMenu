@@ -41,4 +41,6 @@
 @property (nonatomic, weak) IBOutlet id <JDMenuDataSource> dataSource;
 @property (nonatomic, weak) IBOutlet id <JDMenuDelegate>   delegate;
 
+- (NSIndexPath *)indexPathForMenuRow:(JDMenuRow *)menuRow;
+
 @end

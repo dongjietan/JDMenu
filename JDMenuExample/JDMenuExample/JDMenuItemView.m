@@ -44,8 +44,8 @@
 - (void)setWithMenuItem:(JDMenuItem *)menuItem
 {
     [self.iconImgView setImage:menuItem.image];;
-//    self.titleLB.text = menuItem.title;
-//    self.subTitleLB.text = menuItem.subTitle;
+    self.titleLB.text = menuItem.title;
+    self.subTitleLB.text = menuItem.subTitle;
 }
 
 - (void)singleTapGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer{

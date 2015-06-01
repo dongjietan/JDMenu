@@ -27,7 +27,11 @@
         if (self.delegate && [self.delegate respondsToSelector:@selector(menu:heightForRowAtIndexPath:)]) {
             height = [self.delegate menu:self heightForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         }
-        JDMenuRow *row = [[JDMenuRow alloc] initWithFrame:CGRectMake(0, originY, self.frame.size.width, height)];
+        JDMenuRow *row;
+        if (self.dataSource && [self.dataSource respondsToSelector:@selector(menu:rowAtIndexPath:)]) {
+            row = [self.dataSource menu:self rowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        }
+        row.frame = CGRectMake(0, originY, self.frame.size.width, height);
         originY += height;
         row.delegate = self;
         [self addSubview:row];
@@ -48,6 +52,11 @@
     [self setup];
 }
 
+- (NSIndexPath *)indexPathForMenuRow:(JDMenuRow *)menuRow{
+    NSInteger index = [menuRows indexOfObject:menuRow];
+    return [NSIndexPath indexPathForRow:index inSection:0];
+}
+
 - (void)itemAnimationFinished:(JDMenuRow *)menuRow{
     for (int i = 0; i < 3; ++i) {
         JDMenuRow *row = [menuRows objectAtIndex:i];
@@ -55,14 +64,6 @@
             [self spread:row];
         }
     }
-}
-
-- (NSInteger)numberOfRowsInSection:(NSInteger)section{
-    return 3;
-}
-
-- (JDMenuRow *)rowAtIndexPath:(NSIndexPath *)indexPath{
-    return [menuRows objectAtIndex:indexPath.row];
 }
 
 - (void)spread:(JDMenuRow *)menuRow{
@@ -98,19 +99,7 @@
                          self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, frame.origin.y + frame.size.height);
                      }
                      completion:^(BOOL finished){
-                         for (int i = 0; i < count; ++i) {
-                             UIImage *image = [UIImage imageNamed:@"live_leave1_5_icon"];
-                             NSInteger row = i / 4;
-                             NSInteger col = i % 4;
-                             CGRect frame = CGRectZero;
-                             frame.origin.x = startPointX + col * (width + space);
-                             frame.origin.y = startPointY + row * height;
-                             frame.size.width = width;
-                             frame.size.height = width;
-                             UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
-                             imageView.image = image;
-                             [menuRow addSubview:imageView];
-                         }
+                         [menuRow setSubRowItemsHidden:NO];
                      }];
 }
 @end
