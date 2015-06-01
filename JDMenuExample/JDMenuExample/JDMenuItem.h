@@ -15,4 +15,5 @@
 @property (nonatomic, copy) NSString *subTitle;
 @property (nonatomic, strong) UIImage *image;
 
+@property (nonatomic, strong) NSArray *subItems;
 @end

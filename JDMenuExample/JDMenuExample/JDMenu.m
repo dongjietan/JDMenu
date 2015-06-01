@@ -57,13 +57,23 @@
     return [NSIndexPath indexPathForRow:index inSection:0];
 }
 
-- (void)itemAnimationFinished:(JDMenuRow *)menuRow{
-    for (int i = 0; i < 3; ++i) {
-        JDMenuRow *row = [menuRows objectAtIndex:i];
-        if (i == 0) {
-            [self spread:row];
-        }
-    }
+- (void)spreadAnimationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
+    [UIView animateWithDuration:0.2f
+                          delay:0.f
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGFloat originY = 0;
+                         for (int i = 0; i < menuRows.count; ++i) {
+                             JDMenuRow *row = [menuRows objectAtIndex:i];
+                             CGFloat height = row == menuRow ? [menuRow spreadHeightForMenuRowItemSide:menuRowItemSide] : JDMenuRowHeightDefault;
+                             row.frame = CGRectMake(0, originY, row.frame.size.width, height);
+                             originY += height;
+                         }
+                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,originY);
+                     }
+                     completion:^(BOOL finished){
+                        [menuRow setSubRowItems:menuRowItemSide hidden:NO];
+                     }];
 }
 
 - (void)spread:(JDMenuRow *)menuRow{
@@ -99,7 +109,7 @@
                          self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, frame.origin.y + frame.size.height);
                      }
                      completion:^(BOOL finished){
-                         [menuRow setSubRowItemsHidden:NO];
+//                         [menuRow setSubRowItems:menuRowItemSide hidden:NO];
                      }];
 }
 @end

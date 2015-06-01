@@ -15,7 +15,8 @@
     JDMenuItemView *leftItemView;
     JDMenuItemView *rightItemView;
     CGRect normalFrame;
-    NSArray *subRowItems;
+    NSArray *leftSubRowItems;
+    NSArray *rightSubRowItems;
 }
 
 @end
@@ -40,7 +41,7 @@
     [self setup];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem subItems:(NSArray *)subItems{
+- (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem{
     if (self = [self initWithFrame:frame]) {
         leftItemView = [[JDMenuItemView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width * 0.5f, JDMenuRowHeightDefault)];
         [leftItemView setWithMenuItem:leftMenuItem];
@@ -52,40 +53,61 @@
         rightItemView.delegate = self;
         [self addSubview:rightItemView];
         
-        NSInteger count = subItems.count;
-        NSInteger totalRow = count == 0 ? 0 : (count - 1) / 4 + 1;
-        if (totalRow > 0) {
-            NSMutableArray *mArray = [NSMutableArray array];
-            for (int i = 0; i < subItems.count; ++i) {
-                JDMenuItem *menuItem = [subItems objectAtIndex:i];
-                NSInteger row = i / 4;
-                NSInteger col = i % 4;
-                NSInteger numberInRow = row + 1 < totalRow ? 4 : count - (totalRow - 1) * 4;
-                CGFloat totoalWidth = (numberInRow - 1) * JDMenuRowIconSpaceDefault + numberInRow * JDMenuRowIconWidthDefault;
-    
-                CGFloat startPointX = (frame.size.width - totoalWidth) * 0.5f;
-                CGFloat startPointY = JDMenuRowHeightDefault + JDMenuRowIconOriginY;
-                CGFloat labelStartPointY = 64 + JDMenuRowTitleOriginY;
-                
-                CGRect frame = CGRectZero;
-                frame.origin.x = startPointX + col * (JDMenuRowIconWidthDefault + JDMenuRowIconSpaceDefault);
-                frame.origin.y = startPointY + row * JDMenuRowSubRowHeightDefault;
-                frame.size.width = JDMenuRowIconWidthDefault;
-                frame.size.height = JDMenuRowIconWidthDefault;
-                
-                UIButton *button = [[UIButton alloc] initWithFrame:frame];
-                [button setImage:menuItem.image forState:UIControlStateNormal];
-                button.hidden = YES;
-                [self addSubview:button];
-                [mArray addObject:button];
-            }
-            subRowItems = [NSArray arrayWithArray:mArray];
-        }
+        [self addSubItems:leftItemView];
+        [self addSubItems:rightItemView];
     }
     return self;
 }
 
-- (void)setSubRowItemsHidden:(BOOL)hidden{
+- (CGFloat)spreadHeightForMenuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
+    JDMenuItemView *menuItemView = menuRowItemSide == JDMenuRowItemSideLeft ? leftItemView : rightItemView;
+    NSArray *subItems = menuItemView.menuItem.subItems;
+    NSInteger count = subItems.count;
+    NSInteger totalRow = count == 0 ? 0 : (count - 1) / 4 + 1;
+    return totalRow * JDMenuRowSubRowHeightDefault + JDMenuRowHeightDefault;
+}
+
+- (void)addSubItems:(JDMenuItemView *)menuItemView
+{
+    NSArray *subItems = menuItemView.menuItem.subItems;
+    NSInteger count = subItems.count;
+    NSInteger totalRow = count == 0 ? 0 : (count - 1) / 4 + 1;
+    if (totalRow > 0) {
+        NSMutableArray *mArray = [NSMutableArray array];
+        for (int i = 0; i < subItems.count; ++i) {
+            JDMenuItem *menuItem = [subItems objectAtIndex:i];
+            NSInteger row = i / 4;
+            NSInteger col = i % 4;
+            NSInteger numberInRow = row + 1 < totalRow ? 4 : count - (totalRow - 1) * 4;
+            CGFloat totoalWidth = (numberInRow - 1) * JDMenuRowIconSpaceDefault + numberInRow * JDMenuRowIconWidthDefault;
+            
+            CGFloat startPointX = (self.frame.size.width - totoalWidth) * 0.5f;
+            CGFloat startPointY = JDMenuRowHeightDefault + JDMenuRowIconOriginY;
+            CGFloat labelStartPointY = 64 + JDMenuRowTitleOriginY;
+            
+            CGRect frame = CGRectZero;
+            frame.origin.x = startPointX + col * (JDMenuRowIconWidthDefault + JDMenuRowIconSpaceDefault);
+            frame.origin.y = startPointY + row * JDMenuRowSubRowHeightDefault;
+            frame.size.width = JDMenuRowIconWidthDefault;
+            frame.size.height = JDMenuRowIconWidthDefault;
+            
+            UIButton *button = [[UIButton alloc] initWithFrame:frame];
+            [button setImage:menuItem.image forState:UIControlStateNormal];
+            button.hidden = YES;
+            [self addSubview:button];
+            [mArray addObject:button];
+        }
+        if (menuItemView == leftItemView) {
+            leftSubRowItems = [NSArray arrayWithArray:mArray];
+        }
+        else{
+            rightSubRowItems = [NSArray arrayWithArray:mArray];
+        }
+    }
+}
+
+- (void)setSubRowItems:(JDMenuRowItemSide)menuRowItemSide hidden:(BOOL)hidden{
+    NSArray *subRowItems = menuRowItemSide == JDMenuRowItemSideLeft ? leftSubRowItems : rightSubRowItems;
     for (UIView *view in subRowItems) {
         view.hidden = hidden;
     }
@@ -133,9 +155,14 @@
                      }];
 }
 
-- (void)animationFinished:(JDMenuItemView *)menuItemView{
+- (void)spreadAnimationFinished:(JDMenuItemView *)menuItemView{
     if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuRowDelegate)]) {
-        [self.delegate itemAnimationFinished:self];
+        if(menuItemView == leftItemView){
+            [self.delegate spreadAnimationFinished:self menuRowItemSide:JDMenuRowItemSideLeft];
+        }
+        else{
+            [self.delegate spreadAnimationFinished:self menuRowItemSide:JDMenuRowItemSideRight];
+        }
     }
 }
 

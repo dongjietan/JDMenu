@@ -43,6 +43,7 @@
 
 - (void)setWithMenuItem:(JDMenuItem *)menuItem
 {
+    _menuItem = menuItem;
     [self.iconImgView setImage:menuItem.image];;
     self.titleLB.text = menuItem.title;
     self.subTitleLB.text = menuItem.subTitle;
@@ -94,7 +95,7 @@
                          _status = JDMenuItemViewStatusSpreaded;
                          if (finished) {
                              if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuItemViewDelegate)]) {
-                                 [self.delegate animationFinished:self];
+                                 [self.delegate spreadAnimationFinished:self];
                              }
                          }
                      }];

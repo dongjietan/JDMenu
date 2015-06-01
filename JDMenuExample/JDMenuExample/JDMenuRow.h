@@ -21,10 +21,15 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
     JDMenuRowStatusSpreaded = 1 << 0,
 };
 
+typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
+    JDMenuRowItemSideLeft   = 0,
+    JDMenuRowItemSideRight  = 1 << 0,
+};
+
 @class JDMenuRow;
 @class JDMenuItem;
 @protocol JDMenuRowDelegate <NSObject>
-- (void)itemAnimationFinished:(JDMenuRow *)menuRow;
+- (void)spreadAnimationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
 @end
 
 @interface JDMenuRow : UIView
@@ -32,7 +37,8 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
 @property(nonatomic,weak) id <JDMenuRowDelegate> delegate;
 @property(nonatomic,readonly) JDMenuRowStatus status;
 
-- (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem subItems:(NSArray *)subItems;
+- (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem;
 
-- (void)setSubRowItemsHidden:(BOOL)hidden;
+- (void)setSubRowItems:(JDMenuRowItemSide)menuRowItemSide hidden:(BOOL)hidden;
+- (CGFloat)spreadHeightForMenuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
 @end

@@ -32,13 +32,23 @@
 }
 
 - (JDMenuRow *)menu:(JDMenu *)menu rowAtIndexPath:(NSIndexPath *)indexPath{
+    JDMenuItem *leftMenuItem = [self randomMenuItem];
     NSMutableArray *mArray = [NSMutableArray array];
-    NSInteger count = arc4random() % 10;
+    NSInteger count = arc4random() % 10 + 1;
     for (int i = 0; i < count; ++i) {
         [mArray addObject:[self randomMenuItem]];
     }
+    leftMenuItem.subItems = [NSArray arrayWithArray:mArray];
     
-    JDMenuRow *menuRow = [[JDMenuRow alloc] initWithFrame:CGRectMake(0, 0, menu.frame.size.width, JDMenuRowHeightDefault) leftMenuItem:[self randomMenuItem] rightMenuItem:[self randomMenuItem] subItems:[NSArray arrayWithArray:mArray]];
+    JDMenuItem *rightMenuItem = [self randomMenuItem];
+    mArray = [NSMutableArray array];
+    count = arc4random() % 10;
+    for (int i = 0; i < count; ++i) {
+        [mArray addObject:[self randomMenuItem]];
+    }
+    rightMenuItem.subItems = [NSArray arrayWithArray:mArray];
+    
+    JDMenuRow *menuRow = [[JDMenuRow alloc] initWithFrame:CGRectMake(0, 0, menu.frame.size.width, JDMenuRowHeightDefault) leftMenuItem:leftMenuItem rightMenuItem:rightMenuItem];
     return menuRow;
 }
 
