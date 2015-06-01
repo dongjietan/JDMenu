@@ -94,7 +94,7 @@
                          _status = JDMenuItemViewStatusSpreaded;
                          if (finished) {
                              if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuItemViewDelegate)]) {
-                                 [self.delegate animationFinished];
+                                 [self.delegate animationFinished:self];
                              }
                          }
                      }];

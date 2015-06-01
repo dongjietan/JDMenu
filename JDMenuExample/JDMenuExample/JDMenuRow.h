@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger,JDMenuRowStatus){
+    JDMenuRowStatusNormal   = 0,
+    JDMenuRowStatusSpreaded = 1 << 0,
+};
+
+@class JDMenuRow;
+@protocol JDMenuRowDelegate <NSObject>
+- (void)itemAnimationFinished:(JDMenuRow *)menuRow;
+@end
+
 @interface JDMenuRow : UIView
+
+@property(nonatomic,weak) id <JDMenuRowDelegate> delegate;
+@property(nonatomic,readonly) JDMenuRowStatus status;
 
 @end

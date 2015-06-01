@@ -24,6 +24,7 @@
 #pragma mark - Setup
 - (void)setup {
     NSLog(@"frame:%@",NSStringFromCGRect(self.frame));
+    _status = JDMenuRowStatusNormal;
     normalFrame = self.frame;
     JDMenuItem *menuItem = [[JDMenuItem alloc] init];
     menuItem.image = [UIImage imageNamed:@"live_leave1_3_icon"];
@@ -137,8 +138,10 @@
                      }];
 }
 
-- (void)animationFinished{
-    [self spreadSubMenu];
+- (void)animationFinished:(JDMenuItemView *)menuItemView{
+    if (self.delegate && [self.delegate conformsToProtocol:@protocol(JDMenuRowDelegate)]) {
+        [self.delegate itemAnimationFinished:self];
+    }
 }
 
 @end
