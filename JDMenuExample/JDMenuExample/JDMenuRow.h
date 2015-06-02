@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JDMenuItemView.h"
 
 #define JDMenuRowHeightDefault 64
 #define JDMenuRowSubRowHeightDefault 92
@@ -25,19 +26,13 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
     JDMenuRowStatusSpreadedRight    = 1 << 1,
 };
 
-typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
-    JDMenuRowItemSideNone   = 0,        //normal
-    JDMenuRowItemSideLeft   = 1 << 0,   
-    JDMenuRowItemSideRight  = 1 << 1,
-};
-
 @class JDMenuRow;
 @class JDMenuItem;
-@class JDMenuItemView;
+
 @protocol JDMenuRowDelegate <NSObject>
 - (void)subItemTaped:(JDMenuItem *)menuItem menuItemView:(JDMenuItemView *)menuItemView menuRow:(JDMenuRow *)menuRow;
 - (void)menuRow:(JDMenuRow *)menuRow shouldChangeToStatus:(JDMenuRowStatus)status;
-- (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
+- (void)animationFinished:(JDMenuRow *)menuRow;
 @end
 
 @interface JDMenuRow : UIView
@@ -47,7 +42,7 @@ typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
 
 - (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem;
 
-- (void)setSubRowItems:(JDMenuRowItemSide)menuRowItemSide hidden:(BOOL)hidden;
+- (void)setSubRowItems:(JDMenuItemViewSide)menuItemViewSide hidden:(BOOL)hidden;
 - (CGFloat)rowhHeight;
 - (void)setRowStatus:(JDMenuRowStatus)status;
 @end

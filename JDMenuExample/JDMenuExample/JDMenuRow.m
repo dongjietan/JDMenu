@@ -7,7 +7,6 @@
 //
 
 #import "JDMenuRow.h"
-#import "JDMenuItemView.h"
 #import "JDMenuItem.h"
 
 @interface JDMenuRow()<JDMenuItemViewDelegate>
@@ -16,7 +15,6 @@
     JDMenuItemView *rightItemView;
     NSArray *leftSubRowItems;
     NSArray *rightSubRowItems;
-    JDMenuRowItemSide rowItemSide;
 }
 
 @end
@@ -62,13 +60,9 @@
 }
 
 - (CGFloat)rowhHeight{
-#warning need delete JDMenuRowItemSide
-    if (_status == JDMenuRowStatusNormal) {
-        rowItemSide = JDMenuRowItemSideNone;
-    }
     CGFloat height = JDMenuRowHeightDefault;
-    if (rowItemSide != JDMenuRowItemSideNone){
-        JDMenuItemView *menuItemView = rowItemSide == JDMenuRowItemSideLeft ? leftItemView : rightItemView;
+    if (_status != JDMenuRowStatusNormal){
+        JDMenuItemView *menuItemView = _status == JDMenuRowStatusSpreadedLeft ? leftItemView : rightItemView;
         NSArray *subItems = menuItemView.menuItem.subItems;
         NSInteger count = subItems.count;
         NSInteger totalRow = count == 0 ? 0 : (count - 1) / 4 + 1;
@@ -134,8 +128,8 @@
     }
 }
 
-- (void)setSubRowItems:(JDMenuRowItemSide)menuRowItemSide hidden:(BOOL)hidden{
-    NSArray *subRowItems = menuRowItemSide == JDMenuRowItemSideLeft ? leftSubRowItems : rightSubRowItems;
+- (void)setSubRowItems:(JDMenuItemViewSide)menuItemViewSide hidden:(BOOL)hidden{
+    NSArray *subRowItems = menuItemViewSide == JDMenuItemViewSideLeft ? leftSubRowItems : rightSubRowItems;
     for (UIView *view in subRowItems) {
         view.hidden = hidden;
     }
@@ -143,8 +137,8 @@
 
 
 - (void)restoreNormalState{
-    [self setSubRowItems:JDMenuRowItemSideLeft hidden:YES];
-    [self setSubRowItems:JDMenuRowItemSideRight hidden:YES];
+    [self setSubRowItems:JDMenuItemViewSideLeft hidden:YES];
+    [self setSubRowItems:JDMenuItemViewSideRight hidden:YES];
 }
 
 - (void)setRowStatus:(JDMenuRowStatus)status{
@@ -176,17 +170,17 @@
                          if (status == JDMenuRowStatusNormal) {
                              leftItemView.status = JDMenuItemViewStatusNormal;
                              rightItemView.status = JDMenuItemViewStatusNormal;
-                             [weakSelf animationFinishedWithMenuRowItemSide:JDMenuRowItemSideNone];
+                             [weakSelf animationFinished];
                          }
                          else if(status == JDMenuRowStatusSpreadedLeft){
                              leftItemView.status = JDMenuItemViewStatusSpreaded;
                              rightItemView.status = JDMenuItemViewStatusShrinked;
-                             [weakSelf animationFinishedWithMenuRowItemSide:JDMenuRowItemSideLeft];
+                             [weakSelf animationFinished];
                          }
                          else{
                              leftItemView.status = JDMenuItemViewStatusShrinked;
                              rightItemView.status = JDMenuItemViewStatusSpreaded;
-                             [weakSelf animationFinishedWithMenuRowItemSide:JDMenuRowItemSideRight];
+                             [weakSelf animationFinished];
                          }
                      }];
 }
@@ -226,10 +220,9 @@
     }
 }
 
-- (void)animationFinishedWithMenuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
-    rowItemSide = menuRowItemSide;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(animationFinished:menuRowItemSide:)]) {
-        [self.delegate animationFinished:self menuRowItemSide:menuRowItemSide];
+- (void)animationFinished{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(animationFinished:)]) {
+        [self.delegate animationFinished:self];
     }
 }
 @end

@@ -58,7 +58,7 @@
     return [NSIndexPath indexPathForRow:index inSection:0];
 }
 
-- (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
+- (void)animationFinished:(JDMenuRow *)menuRow{
     [UIView animateWithDuration:0.2f
                           delay:0.f
                         options:UIViewAnimationOptionCurveEaseInOut
@@ -73,12 +73,15 @@
                          self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,originY);
                      }
                      completion:^(BOOL finished){
-                         if (menuRowItemSide == JDMenuRowItemSideNone) {
-                             [menuRow setSubRowItems:JDMenuRowItemSideLeft hidden:YES];
-                             [menuRow setSubRowItems:JDMenuRowItemSideRight hidden:YES];
+                         if (menuRow.status == JDMenuRowStatusNormal) {
+                             [menuRow setSubRowItems:JDMenuItemViewSideLeft hidden:YES];
+                             [menuRow setSubRowItems:JDMenuItemViewSideRight hidden:YES];
+                         }
+                         else if(menuRow.status == JDMenuRowStatusSpreadedLeft){
+                             [menuRow setSubRowItems:JDMenuItemViewSideLeft hidden:NO];
                          }
                          else{
-                             [menuRow setSubRowItems:menuRowItemSide hidden:NO];
+                             [menuRow setSubRowItems:JDMenuItemViewSideRight hidden:NO];
                          }
                      }];
 }
