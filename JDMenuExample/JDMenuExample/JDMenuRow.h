@@ -14,7 +14,7 @@
 #define JDMenuRowIconWidthDefault 52
 #define JDMenuRowIconSpaceDefault 30
 
-#define JDMenuRowTitleHeightDefault 12
+#define JDMenuRowTitleHeightDefault 16
 
 #define JDMenuRowIconOriginY 12
 #define JDMenuRowTitleOriginY 68
@@ -35,8 +35,8 @@ typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
 @class JDMenuItem;
 @class JDMenuItemView;
 @protocol JDMenuRowDelegate <NSObject>
+- (void)subItemTaped:(JDMenuItem *)menuItem menuItemView:(JDMenuItemView *)menuItemView menuRow:(JDMenuRow *)menuRow;
 - (void)menuRow:(JDMenuRow *)menuRow shouldChangeToStatus:(JDMenuRowStatus)status;
-- (void)animationWillBegin:(JDMenuRow *)menuRow;
 - (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
 @end
 

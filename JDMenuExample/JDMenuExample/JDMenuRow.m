@@ -103,7 +103,9 @@
             
             UIButton *button = [[UIButton alloc] initWithFrame:frame];
             [button setImage:menuItem.image forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(subItemTaped:) forControlEvents:UIControlEventTouchUpInside];
             button.hidden = YES;
+            button.tag = i;
             [self addSubview:button];
             
             frame = CGRectZero;
@@ -190,6 +192,22 @@
 }
 
 #pragma mark - Delegate
+
+- (void)subItemTaped:(UIButton *)sender{
+    JDMenuItemView *menuItemView;
+    if ([leftSubRowItems containsObject:sender]) {
+        menuItemView = leftItemView;
+    }
+    else if ([rightSubRowItems containsObject:sender]){
+        menuItemView = rightItemView;
+    }
+    NSArray *subItems = menuItemView.menuItem.subItems;
+    JDMenuItem *menuItem = [subItems objectAtIndex:sender.tag];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(subItemTaped:menuItemView:menuRow:)]) {
+        [self.delegate subItemTaped:menuItem menuItemView:menuItemView menuRow:self];
+    }
+}
+
 - (void)menuItemTaped:(JDMenuItemView *)menuItemView{
     JDMenuRowStatus status;
     if (menuItemView.status == JDMenuItemViewStatusSpreaded) {
@@ -205,12 +223,6 @@
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(menuRow:shouldChangeToStatus:)]) {
         [self.delegate menuRow:self shouldChangeToStatus:status];
-    }
-}
-
-- (void)animationWillBegin{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(animationWillBegin:)]) {
-        [self.delegate animationWillBegin:self];
     }
 }
 

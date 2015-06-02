@@ -8,6 +8,7 @@
 
 #import "JDMenu.h"
 #import "JDMenuRow.h"
+#import "JDMenuItem.h"
 
 @interface JDMenu()<JDMenuRowDelegate>{
     NSArray *menuRows;
@@ -57,13 +58,6 @@
     return [NSIndexPath indexPathForRow:index inSection:0];
 }
 
-- (void)animationWillBegin:(JDMenuRow *)menuRow{
-    for (int i = 0; i < menuRows.count; ++i) {
-        JDMenuRow *row = [menuRows objectAtIndex:i];
-//        row.status = JDMenuRowStatusNormal;
-    }
-}
-
 - (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
     [UIView animateWithDuration:0.2f
                           delay:0.f
@@ -101,4 +95,7 @@
     }
 }
 
+- (void)subItemTaped:(JDMenuItem *)menuItem menuItemView:(JDMenuItemView *)menuItemView menuRow:(JDMenuRow *)menuRow{
+    NSLog(@"subItemTaped:%@",menuItem.title);
+}
 @end
