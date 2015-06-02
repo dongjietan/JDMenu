@@ -38,7 +38,7 @@
     [self setup];
 }
 
-#warning 这个里的frame坑定不能这么传过来
+#warning 这个里的frame 可能，应该，最好不能这么传过来。。。
 - (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem{
     if (self = [self initWithFrame:frame]) {
         leftItemView = [[JDMenuItemView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width * 0.5f, JDMenuRowHeightDefault)];
