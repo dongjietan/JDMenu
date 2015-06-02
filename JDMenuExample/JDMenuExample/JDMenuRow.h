@@ -17,8 +17,9 @@
 #define JDMenuRowTitleOriginY 68
 
 typedef NS_ENUM(NSInteger,JDMenuRowStatus){
-    JDMenuRowStatusNormal   = 0,
-    JDMenuRowStatusSpreaded = 1 << 0,
+    JDMenuRowStatusNormal           = 0,
+    JDMenuRowStatusSpreadedLeft     = 1 << 0,
+    JDMenuRowStatusSpreadedRight    = 1 << 1,
 };
 
 typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
@@ -29,7 +30,10 @@ typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
 
 @class JDMenuRow;
 @class JDMenuItem;
+@class JDMenuItemView;
 @protocol JDMenuRowDelegate <NSObject>
+- (void)menuRow:(JDMenuRow *)menuRow shouldChangeToStatus:(JDMenuRowStatus)status;
+- (void)animationWillBegin:(JDMenuRow *)menuRow;
 - (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide;
 @end
 
@@ -42,4 +46,5 @@ typedef NS_ENUM(NSInteger,JDMenuRowItemSide){
 
 - (void)setSubRowItems:(JDMenuRowItemSide)menuRowItemSide hidden:(BOOL)hidden;
 - (CGFloat)rowhHeight;
+- (void)setRowStatus:(JDMenuRowStatus)status;
 @end

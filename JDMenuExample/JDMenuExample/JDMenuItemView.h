@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger,JDMenuItemViewSide){
+    JDMenuItemViewSideNone  = 0,
+    JDMenuItemViewSideLeft  = 1 << 0,
+    JDMenuItemViewSideRight = 1 << 1,
+};
+
 typedef NS_ENUM(NSInteger,JDMenuItemViewStatus){
     JDMenuItemViewStatusNormal      = 0,
     JDMenuItemViewStatusShrinked    = 1 << 0,
@@ -24,6 +30,7 @@ typedef NS_ENUM(NSInteger,JDMenuItemViewStatus){
 
 @property(nonatomic,weak) id <JDMenuItemViewDelegate> delegate;
 @property(nonatomic,assign) JDMenuItemViewStatus status;
+@property(nonatomic,assign) JDMenuItemViewSide side;
 @property(nonatomic,strong,readonly) JDMenuItem *menuItem;
 
 - (void)setWithMenuItem:(JDMenuItem *)menuItem;

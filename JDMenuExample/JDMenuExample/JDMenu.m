@@ -57,6 +57,13 @@
     return [NSIndexPath indexPathForRow:index inSection:0];
 }
 
+- (void)animationWillBegin:(JDMenuRow *)menuRow{
+    for (int i = 0; i < menuRows.count; ++i) {
+        JDMenuRow *row = [menuRows objectAtIndex:i];
+//        row.status = JDMenuRowStatusNormal;
+    }
+}
+
 - (void)animationFinished:(JDMenuRow *)menuRow menuRowItemSide:(JDMenuRowItemSide)menuRowItemSide{
     [UIView animateWithDuration:0.2f
                           delay:0.f
@@ -80,6 +87,18 @@
                              [menuRow setSubRowItems:menuRowItemSide hidden:NO];
                          }
                      }];
+}
+
+- (void)menuRow:(JDMenuRow *)menuRow shouldChangeToStatus:(JDMenuRowStatus)status{
+    for (int i = 0; i < menuRows.count; ++i) {
+        JDMenuRow *row = [menuRows objectAtIndex:i];
+        if (row == menuRow) {
+            [row setRowStatus:status];
+        }
+        else{
+            [row setRowStatus:JDMenuRowStatusNormal];
+        }
+    }
 }
 
 @end

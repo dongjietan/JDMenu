@@ -42,7 +42,7 @@
     
     JDMenuItem *rightMenuItem = [self randomMenuItem];
     mArray = [NSMutableArray array];
-    count = arc4random() % 10;
+    count = arc4random() % 10 + 1;
     for (int i = 0; i < count; ++i) {
         [mArray addObject:[self randomMenuItem]];
     }
