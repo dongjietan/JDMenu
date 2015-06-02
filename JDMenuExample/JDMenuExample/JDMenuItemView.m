@@ -13,10 +13,10 @@
     CGRect normalFrame;
 }
 
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIImageView *iconImgView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLB;
-@property (weak, nonatomic) IBOutlet UILabel *subTitleLB;
+@property (strong, nonatomic) UIView *containerView;
+@property (strong, nonatomic) UIImageView *iconImgView;
+@property (strong, nonatomic) UILabel *titleLB;
+@property (strong, nonatomic) UILabel *subTitleLB;
 @end
 
 @implementation JDMenuItemView
@@ -24,6 +24,7 @@
 #pragma mark - Setup
 
 - (void)setup{
+    [self addSubviews];
     _status = JDMenuItemViewStatusNormal;
     normalFrame = self.frame;
     
@@ -33,12 +34,38 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-#warning 改为手动添加以及自动布局
-    NSString *className = NSStringFromClass([self class]);
-    JDMenuItemView *customView = [[[NSBundle mainBundle] loadNibNamed:className owner:self options:nil] firstObject];
-    customView.frame = frame;
-    [customView setup];
-    return customView;
+    if (self = [super initWithFrame:frame]) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)awakeFromNib{
+    [self setup];
+}
+
+- (void)addSubviews{
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 188, 64)];
+    containerView.backgroundColor = [UIColor clearColor];
+    [self addSubview:containerView];
+    
+    UIImageView *iconImgView = [[UIImageView alloc] initWithFrame:CGRectMake(14, 10, 44, 44)];
+    [containerView addSubview:iconImgView];
+    
+    UILabel *titleLB = [[UILabel alloc] initWithFrame:CGRectMake(74, 10, 114, 22)];
+    titleLB.font = [UIFont systemFontOfSize:15];
+    titleLB.textColor = [UIColor blackColor];
+    [containerView addSubview:titleLB];
+    
+    UILabel *subTitleLB = [[UILabel alloc] initWithFrame:CGRectMake(74, 32, 114, 22)];
+    subTitleLB.font = [UIFont systemFontOfSize:12];
+    subTitleLB.textColor = [UIColor darkGrayColor];
+    [containerView addSubview:subTitleLB];
+    
+    self.containerView = containerView;
+    self.iconImgView = iconImgView;
+    self.titleLB = titleLB;
+    self.subTitleLB = subTitleLB;
 }
 
 - (void)setWithMenuItem:(JDMenuItem *)menuItem
