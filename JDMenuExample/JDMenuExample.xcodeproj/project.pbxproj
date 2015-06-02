@@ -17,7 +17,6 @@
 		69D70E0A1B1B25D300CDE65A /* JDMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D70E021B1B25D300CDE65A /* JDMenu.m */; };
 		69D70E0B1B1B25D300CDE65A /* JDMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D70E041B1B25D300CDE65A /* JDMenuItem.m */; };
 		69D70E0C1B1B25D300CDE65A /* JDMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D70E061B1B25D300CDE65A /* JDMenuItemView.m */; };
-		69D70E0D1B1B25D300CDE65A /* JDMenuItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69D70E071B1B25D300CDE65A /* JDMenuItemView.xib */; };
 		69D70E0E1B1B25D300CDE65A /* JDMenuRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D70E091B1B25D300CDE65A /* JDMenuRow.m */; };
 		69D70E171B1B26F800CDE65A /* live_leave1_1_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69D70E0F1B1B26F800CDE65A /* live_leave1_1_icon@2x.png */; };
 		69D70E181B1B26F800CDE65A /* live_leave1_2_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69D70E101B1B26F800CDE65A /* live_leave1_2_icon@2x.png */; };
@@ -59,7 +58,6 @@
 		69D70E041B1B25D300CDE65A /* JDMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDMenuItem.m; sourceTree = "<group>"; };
 		69D70E051B1B25D300CDE65A /* JDMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDMenuItemView.h; sourceTree = "<group>"; };
 		69D70E061B1B25D300CDE65A /* JDMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDMenuItemView.m; sourceTree = "<group>"; };
-		69D70E071B1B25D300CDE65A /* JDMenuItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JDMenuItemView.xib; sourceTree = "<group>"; };
 		69D70E081B1B25D300CDE65A /* JDMenuRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDMenuRow.h; sourceTree = "<group>"; };
 		69D70E091B1B25D300CDE65A /* JDMenuRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDMenuRow.m; sourceTree = "<group>"; };
 		69D70E0F1B1B26F800CDE65A /* live_leave1_1_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "live_leave1_1_icon@2x.png"; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 				69D70E041B1B25D300CDE65A /* JDMenuItem.m */,
 				69D70E051B1B25D300CDE65A /* JDMenuItemView.h */,
 				69D70E061B1B25D300CDE65A /* JDMenuItemView.m */,
-				69D70E071B1B25D300CDE65A /* JDMenuItemView.xib */,
 				69D70E081B1B25D300CDE65A /* JDMenuRow.h */,
 				69D70E091B1B25D300CDE65A /* JDMenuRow.m */,
 				69D70DDF1B1B25BE00CDE65A /* AppDelegate.h */,
@@ -246,7 +243,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69D70E0D1B1B25D300CDE65A /* JDMenuItemView.xib in Resources */,
 				69D70E171B1B26F800CDE65A /* live_leave1_1_icon@2x.png in Resources */,
 				69D70E181B1B26F800CDE65A /* live_leave1_2_icon@2x.png in Resources */,
 				69D70E191B1B26F800CDE65A /* live_leave1_3_icon@2x.png in Resources */,
@@ -474,6 +470,7 @@
 				69D70DFD1B1B25BE00CDE65A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		69D70DFE1B1B25BE00CDE65A /* Build configuration list for PBXNativeTarget "JDMenuExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +479,7 @@
 				69D70E001B1B25BE00CDE65A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
