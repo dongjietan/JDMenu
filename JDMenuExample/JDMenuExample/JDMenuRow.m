@@ -93,7 +93,7 @@
             
             CGFloat startPointX = (self.frame.size.width - totoalWidth) * 0.5f;
             CGFloat startPointY = JDMenuRowHeightDefault + JDMenuRowIconOriginY;
-            CGFloat labelStartPointY = 64 + JDMenuRowTitleOriginY;
+            CGFloat labelStartPointY = JDMenuRowHeightDefault + JDMenuRowTitleOriginY;
             
             CGRect frame = CGRectZero;
             frame.origin.x = startPointX + col * (JDMenuRowIconWidthDefault + JDMenuRowIconSpaceDefault);
@@ -105,7 +105,23 @@
             [button setImage:menuItem.image forState:UIControlStateNormal];
             button.hidden = YES;
             [self addSubview:button];
+            
+            frame = CGRectZero;
+            frame.origin.x = startPointX + col * (JDMenuRowIconWidthDefault + JDMenuRowIconSpaceDefault);
+            frame.origin.y = labelStartPointY + row * JDMenuRowSubRowHeightDefault;
+            frame.size.width = JDMenuRowIconWidthDefault;
+            frame.size.height = JDMenuRowTitleHeightDefault;
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:frame];
+            label.text = menuItem.title;
+            label.font = [UIFont systemFontOfSize:12];
+            label.textColor = [UIColor darkGrayColor];
+            label.hidden = YES;
+            label.textAlignment = NSTextAlignmentCenter;
+            [self addSubview:label];
+            
             [mArray addObject:button];
+            [mArray addObject:label];
         }
         if (menuItemView == leftItemView) {
             leftSubRowItems = [NSArray arrayWithArray:mArray];

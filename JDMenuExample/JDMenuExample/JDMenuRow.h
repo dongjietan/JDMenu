@@ -10,8 +10,11 @@
 
 #define JDMenuRowHeightDefault 64
 #define JDMenuRowSubRowHeightDefault 92
+
 #define JDMenuRowIconWidthDefault 52
 #define JDMenuRowIconSpaceDefault 30
+
+#define JDMenuRowTitleHeightDefault 12
 
 #define JDMenuRowIconOriginY 12
 #define JDMenuRowTitleOriginY 68
