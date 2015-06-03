@@ -23,6 +23,7 @@
 
 #pragma mark - Setup
 - (void)setup {
+#warning 不同尺寸屏幕适配
     NSLog(@"frame:%@",NSStringFromCGRect(self.frame));
     _status = JDMenuRowStatusNormal;
 }
