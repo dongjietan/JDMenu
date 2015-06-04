@@ -113,7 +113,7 @@
 
 - (void)setBackgroundColorFitIcon{
     UIImage *image = [self.iconImgView image];
-    UIColor *color = [[self getRGBAsFromImage:image atX:image.size.height * 0.5f andY:4 count:1] firstObject];
+    UIColor *color = [[self getRGBAsFromImage:image atX:image.size.width * 0.5f andY:4 count:4] firstObject];
     self.backgroundColor = color;
 }
 

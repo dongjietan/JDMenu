@@ -22,7 +22,7 @@
 
 - (CGFloat)menu:(JDMenu *)menu heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (CGFloat)menu:(JDMenu *)menu heightForSubRowAtIndexPath:(NSIndexPath *)indexPath;
-
+- (void)menuFrameDidChanged:(JDMenu *)menu;
 @end
 
 //_______________________________________________________________________________________________________________
