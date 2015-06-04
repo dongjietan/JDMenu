@@ -24,7 +24,8 @@
 #pragma mark - Setup
 - (void)setup {
 #warning 不同尺寸屏幕适配
-    NSLog(@"frame:%@",NSStringFromCGRect(self.frame));
+//    NSLog(@"frame:%@",NSStringFromCGRect(self.frame));
+//    NSLog(@"bounds:%@",NSStringFromCGRect([UIScreen mainScreen].bounds));
     _status = JDMenuRowStatusNormal;
 }
 
@@ -38,6 +39,17 @@
 - (void)awakeFromNib {
     [self setup];
 }
+//
+//- (void)layoutSubviews{
+//    CGRect frame = leftItemView.frame;
+//    frame.size.width = self.frame.size.width;
+//    leftItemView.frame = frame;
+//    
+//    frame = rightItemView.frame;
+//    frame.origin.x = self.frame.size.width * 0.5f;
+//    frame.size.width = self.frame.size.width;
+//    rightItemView.frame = frame;
+//}
 
 #warning 这个里的frame 可能，应该，最好不能这么传过来。。。
 - (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem{
@@ -70,6 +82,10 @@
         height = totalRow * JDMenuRowSubRowHeightDefault + JDMenuRowHeightDefault;
     }
     return height;
+}
+
+- (CGFloat)defaultRowHeight{
+    return JDMenuRowHeightDefault;
 }
 
 - (void)addSubItems:(JDMenuItemView *)menuItemView
@@ -145,6 +161,7 @@
 - (void)setRowStatus:(JDMenuRowStatus)status{
     leftItemView.userInteractionEnabled = NO;
     rightItemView.userInteractionEnabled = NO;
+    
     __weak __typeof(&*self)weakSelf = self;
     [UIView animateWithDuration:0.2f
                           delay:0.f
@@ -217,7 +234,14 @@
         }
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(menuRow:shouldChangeToStatus:)]) {
+        [self animationWillStart];
         [self.delegate menuRow:self shouldChangeToStatus:status];
+    }
+}
+
+- (void)animationWillStart{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(animationWillStart:)]) {
+        [self.delegate animationWillStart:self];
     }
 }
 

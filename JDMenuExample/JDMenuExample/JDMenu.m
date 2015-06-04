@@ -53,9 +53,45 @@
     [self setup];
 }
 
+//- (void)layoutSubviews{
+//    for (UIView *row in menuRows) {
+//        CGRect frame = row.frame;
+//        frame.size.width = self.frame.size.width;
+//        row.frame = frame;
+//    }
+//}
+
 - (NSIndexPath *)indexPathForMenuRow:(JDMenuRow *)menuRow{
     NSInteger index = [menuRows indexOfObject:menuRow];
     return [NSIndexPath indexPathForRow:index inSection:0];
+}
+
+- (void)animationWillStart:(JDMenuRow *)menuRow{
+//    [UIView animateWithDuration:0.2f
+//                          delay:0.f
+//                        options:UIViewAnimationOptionCurveEaseInOut
+//                     animations:^{
+//                         CGFloat originY = 0;
+//                         for (int i = 0; i < menuRows.count; ++i) {
+//                             JDMenuRow *row = [menuRows objectAtIndex:i];
+//                             CGFloat height = [row defaultRowHeight];
+//                             row.frame = CGRectMake(0, originY, row.frame.size.width, height);
+//                             originY += height;
+//                         }
+//                         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,originY);
+//                     }
+//                     completion:^(BOOL finished){
+//                         if (menuRow.status == JDMenuRowStatusNormal) {
+//                             [menuRow setSubRowItems:JDMenuItemViewSideLeft hidden:YES];
+//                             [menuRow setSubRowItems:JDMenuItemViewSideRight hidden:YES];
+//                         }
+//                         else if(menuRow.status == JDMenuRowStatusSpreadedLeft){
+//                             [menuRow setSubRowItems:JDMenuItemViewSideLeft hidden:NO];
+//                         }
+//                         else{
+//                             [menuRow setSubRowItems:JDMenuItemViewSideRight hidden:NO];
+//                         }
+//                     }];
 }
 
 - (void)animationFinished:(JDMenuRow *)menuRow{
