@@ -107,7 +107,7 @@
 - (void)menuRow:(JDMenuRow *)menuRow shouldChangeToStatus:(JDMenuRowStatus)status{
     for (int i = 0; i < menuRows.count; ++i) {
         JDMenuRow *row = [menuRows objectAtIndex:i];
-        if (!row.isAnimating) {
+        if (![self isAnimating]) {
             if (row == menuRow) {
                 [row setRowStatus:status];
             }
@@ -116,6 +116,18 @@
             }
         }
     }
+}
+
+- (BOOL)isAnimating{
+    BOOL animating = NO;
+    for (int i = 0; i < menuRows.count; ++i) {
+        JDMenuRow *row = [menuRows objectAtIndex:i];
+        if (row.isAnimating) {
+            animating = YES;
+            break;
+        }
+    }
+    return animating;
 }
 
 - (void)subItemTaped:(JDMenuItem *)menuItem menuItemView:(JDMenuItemView *)menuItemView menuRow:(JDMenuRow *)menuRow{
