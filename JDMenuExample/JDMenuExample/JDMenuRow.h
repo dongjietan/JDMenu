@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger,JDMenuRowStatus){
 
 @property(nonatomic,weak) id <JDMenuRowDelegate> delegate;
 @property(nonatomic,readonly) JDMenuRowStatus status;
+@property(nonatomic,readonly) BOOL isAnimating;
 
 - (instancetype)initWithFrame:(CGRect)frame leftMenuItem:(JDMenuItem *)leftMenuItem rightMenuItem:(JDMenuItem *)rightMenuItem;
 

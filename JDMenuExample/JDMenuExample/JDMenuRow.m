@@ -250,4 +250,9 @@
         [self.delegate animationFinished:self];
     }
 }
+
+- (BOOL)isAnimating{
+    BOOL animating = !leftItemView.userInteractionEnabled || !rightItemView.userInteractionEnabled;
+    return animating;
+}
 @end
