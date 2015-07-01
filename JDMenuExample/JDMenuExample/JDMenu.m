@@ -105,13 +105,12 @@
 }
 
 - (void)menuRow:(JDMenuRow *)menuRow shouldChangeToStatus:(JDMenuRowStatus)status{
-    for (int i = 0; i < menuRows.count; ++i) {
-        JDMenuRow *row = [menuRows objectAtIndex:i];
-        if (![self isAnimating]) {
-            if (row == menuRow) {
-                [row setRowStatus:status];
-            }
-            else{
+    if (![self isAnimating]) {
+        [menuRow setRowStatus:status];
+        
+        for (int i = 0; i < menuRows.count; ++i) {
+            JDMenuRow *row = [menuRows objectAtIndex:i];
+            if (row != menuRow) {
                 [row setRowStatus:JDMenuRowStatusNormal];
             }
         }
